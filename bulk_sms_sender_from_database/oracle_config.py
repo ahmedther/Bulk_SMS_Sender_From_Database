@@ -101,14 +101,21 @@ class Ora:
 
         ''')
         
-
-        print(patient_details)
-        date_time_now = datetime.datetime.now()
-        
-
-        # self.cursor.execute(send_patient_data_to_database_qurey,[patient_id,encounter_id,patient_name,contact_no,bed_num,long_desc,admission_date_time,dis_adv_date_time,date_added])
+        for i in list(patient_details.keys()):
+            date_added = datetime.datetime.now()
+            self.cursor.execute(send_patient_data_to_database_qurey,[   patient_details[i]["patient_id"],
+                                                                        patient_details[i]["encounter_id"],
+                                                                        patient_details[i]["patient_name"],
+                                                                        patient_details[i]["phone_number"],
+                                                                        patient_details[i]["bed_number"],
+                                                                        patient_details[i]["location"],
+                                                                        patient_details[i]["admission_datetime"],
+                                                                        patient_details[i]["discharge_datetime"],
+                                                                        date_added,
+                                                                        ])
+            self.ora_db.commit()                    
         # data = self.cursor.fetchall()
-                 
+                            
         #return data
 
 

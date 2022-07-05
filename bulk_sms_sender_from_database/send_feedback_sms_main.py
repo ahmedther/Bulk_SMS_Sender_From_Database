@@ -1,5 +1,6 @@
 from send_bulk_sms import SendSms
 from support import PatientsValueAssignment
+from oracle_config import Ora
 
 
 # This Script has three different part and functions
@@ -7,11 +8,11 @@ from support import PatientsValueAssignment
 #Part 1
 
 #Retrieve Data from the database and filter the phone number as per requirements
-con_db = PatientsValueAssignment()
+pva = PatientsValueAssignment()
 
-patients_list = con_db.get_filtered_patients_values()
+patients_list = pva.get_filtered_patients_values()
 
-
+#---------------------------------------------------------------------------------------------------------------------------------------#
 
 # Part 2
 
@@ -27,12 +28,13 @@ for i in list(patients_list.keys()):
 extracted_phone_number1 = ["8767861216","9004579961","8080513540"]
 
 #Send Bulk SMS
-#SendSms(number=','.join(extracted_phone_number1))
+SendSms(number=','.join(extracted_phone_number1))
 
-
+#---------------------------------------------------------------------------------------------------------------------------------------#
 
 # Part 3 Save the data in a temporary table so that it can be viewed later
+db = Ora()
 
-con_db.send_patient_data_to_database(patients_list)
+db.send_patient_data_to_database(patients_list)
 
-con_db.close_database_connection()
+db.close_database_connection
