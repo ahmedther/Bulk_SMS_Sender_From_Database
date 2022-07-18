@@ -71,7 +71,7 @@ class Ora:
         discharge_patients_in_last_hour_qurey = ('''
         
         
-            select d.patient_id,d.encounter_id,m.patient_name,m.contact2_no,i.bed_num,n.long_desc,i.admission_date_time,d.dis_adv_date_time from ip_discharge_advice d,ip_open_encounter i,mp_patient m,ip_nursing_unit n
+            select d.patient_id,d.encounter_id,m.patient_name,m.contact2_no,m.sex,i.bed_num,n.long_desc,i.admission_date_time,d.dis_adv_date_time from ip_discharge_advice d,ip_open_encounter i,mp_patient m,ip_nursing_unit n
             where d.dis_adv_date_time >= SYSDATE - 1 / 24 
             and i.facility_id='KH'
             and i.patient_id=d.patient_id
@@ -90,33 +90,7 @@ class Ora:
 
 
    # def send_patient_data_to_database(self,patient_id,encounter_id,patient_name,contact_no,bed_num,long_desc,admission_date_time,dis_adv_date_time,date_added):
-    def send_patient_data_to_database(self,patient_details):
-        send_patient_data_to_database_qurey = ('''
-        
-        
-            INSERT INTO predischarge_feedback_sms
-            (PATIENT_ID,ENCOUNTER_ID,PATIENT_NAME, CONTACT_NO, BED_NUM, LONG_DESC, ADMISSION_DATE_TIME, DIS_ADV_DATE_TIME, date_added)
-            VALUES
-            (:patient_id, :encounter_id, :patient_name, :contact_no, :bed_num, :long_desc, :admission_date_time, :dis_adv_date_time,:date_added )
-
-        ''')
-        
-        for i in list(patient_details.keys()):
-            date_added = datetime.datetime.now()
-            self.cursor.execute(send_patient_data_to_database_qurey,[   patient_details[i]["patient_id"],
-                                                                        patient_details[i]["encounter_id"],
-                                                                        patient_details[i]["patient_name"],
-                                                                        patient_details[i]["phone_number"],
-                                                                        patient_details[i]["bed_number"],
-                                                                        patient_details[i]["location"],
-                                                                        patient_details[i]["admission_datetime"],
-                                                                        patient_details[i]["discharge_datetime"],
-                                                                        date_added,
-                                                                        ])
-            self.ora_db.commit()                    
-        # data = self.cursor.fetchall()
-                            
-        #return data
+    
 
 
     def close_database_connection(self):

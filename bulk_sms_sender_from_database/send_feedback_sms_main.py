@@ -1,6 +1,7 @@
 from send_bulk_sms import SendSms
 from support import PatientsValueAssignment
 from oracle_config import Ora
+from postgress_config import PostgressDB
 
 
 # This Script has three different part and functions
@@ -33,8 +34,10 @@ SendSms(number=','.join(extracted_phone_number1))
 #---------------------------------------------------------------------------------------------------------------------------------------#
 
 # Part 3 Save the data in a temporary table so that it can be viewed later
-db = Ora()
+post_db = PostgressDB()
 
-db.send_patient_data_to_database(patients_list)
+post_db.send_patient_data_to_postgres_database(patients_list)
 
-db.close_database_connection
+post_db.delete_patient_above_24hr()
+
+post_db.connection_close()

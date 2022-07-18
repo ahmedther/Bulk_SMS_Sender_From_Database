@@ -14,10 +14,11 @@ class PatientsValueAssignment:
                 "encounter_id" : patients[1],
                 "patient_name":patients[2],
                 "phone_number": patients[3],
-                "bed_number": patients[4],
-                "location": patients[5],
-                "admission_datetime": patients[6],
-                "discharge_datetime" : patients[7]
+                "gender":patients[4],
+                "bed_number": patients[5],
+                "location": patients[6],
+                "admission_datetime": patients[7],
+                "discharge_datetime" : patients[8]
                 }
 
         # Filtering patients phone numbers to remove country code.
@@ -29,6 +30,18 @@ class PatientsValueAssignment:
                 #Remove charactes from index 0 to 1 i.e 9 and 1 from begining
                 number_without_country_code = number_with_country_code[0: 0:] + number_with_country_code[1 + 1::]
                 self.patients_list[patients]["phone_number"] = number_without_country_code
+            
+            # Filter M to Male and F to Female
+            try : 
+                if self.patients_list[patients]["gender"] == "M":
+                    self.patients_list[patients]["gender"] = "Male"
+
+                if self.patients_list[patients]["gender"] == "F":
+                    self.patients_list[patients]["gender"] = "Female"
+            except:
+                pass
+        
+        
 
         
         # Filtering and removing phonenumbers which are less then 10 digit
@@ -37,6 +50,7 @@ class PatientsValueAssignment:
 
             if len(self.patients_list[i]["phone_number"]) < 10:
                     self.patients_list.pop(i)
+
                     
         
     def get_filtered_patients_values(self):
